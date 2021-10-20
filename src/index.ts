@@ -10,13 +10,15 @@ db.initialize();
 setInterval(() => { db.clean_expired_messages() }, 1000 * 60);
 
 app.get("/", (req, res) => {
-    res.send("hi");
+    res.sendFile('./index.html', { root: './public' });
 });
 
 app.post("/:target_id", (req, res) => {
     const type: MessageType = req.query.type as MessageType;
-    if (type)
+    if (type) {
         db.queue_message(req.params.target_id, type);
+        res.send('success');
+    }
 });
 
 app.get("/:target_id", (req, res) => {

@@ -1,0 +1,11 @@
+<script>
+    function send(t) {
+        let url = "https://smartknock.xyz/" + location.hash.substr(1) + "?type=" + t.toString();
+        console.log(url);
+        fetch(url, {
+            method: "POST",
+        });
+    }
+</script>
+<button style="height: 100px; width: 100px; padding: 10px;" onclick='send("LOCK")'>LOCK</button>
+<button style="height: 100px; width: 100px; padding: 10px;" onclick='send("UNLOCK")'>UNLOCK</button>
