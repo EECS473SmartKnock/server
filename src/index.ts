@@ -15,8 +15,10 @@ app.get("/", (req, res) => {
 
 app.post("/:target_id", (req, res) => {
     const type: MessageType = req.query.type as MessageType;
+    const passphrase: string = req.query.passphrase as string;
+
     if (type) {
-        db.queue_message(req.params.target_id, type);
+        db.queue_message(req.params.target_id, type, passphrase);
         res.send('success');
     }
 });
@@ -28,7 +30,7 @@ app.get("/:target_id", (req, res) => {
             let str = "";
             let rows = val as Array<MessageDBRow>;
             rows.forEach(msg => {
-                str += msg.id + " " + msg.message_type + "\n";
+                str += msg.id + " " + msg.message_type + " " + msg.hash + "\n";
             });
             res.send(str);
         }
