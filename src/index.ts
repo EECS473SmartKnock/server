@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
     res.sendFile('./index.html', { root: './public' });
 });
 
-app.post("/:target_id", (req, res) => {
+app.post("/messages/:target_id", (req, res) => {
     const type: MessageType = req.query.type as MessageType;
     const passphrase: string = req.query.passphrase as string;
 
@@ -23,7 +23,7 @@ app.post("/:target_id", (req, res) => {
     }
 });
 
-app.get("/:target_id", (req, res) => {
+app.get("/messages/:target_id", (req, res) => {
     const format: string = req.query.format as string;
     db.get_messages(req.params.target_id).then((val) => {
         if (format == "spaces") {
@@ -37,6 +37,23 @@ app.get("/:target_id", (req, res) => {
         else { res.send(val); }
     });
 })
+
+app.post("/stats/:target_id", (req, res) => {
+    const battery = req.query.battery as string;
+    const batteryNum = parseFloat(battery);
+    const knocks = req.query.knocks as string;
+    const knocksNum = parseInt(knocks);
+
+    db.set_stats(req.params.target_id, {battery: batteryNum, knocks: knocksNum});
+    res.send('success');
+
+})
+app.get("/stats/:target_id", (req, res) => {
+    db.get_stats(req.params.target_id).then((val) => {
+        res.send(val);
+    })
+})
+
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
