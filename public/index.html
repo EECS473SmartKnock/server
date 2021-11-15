@@ -2,7 +2,7 @@
     function send(t) {
         let passphrase = prompt('lock passphrase');
         let base_url = window.location.origin;
-        let url = base_url + '/' + location.hash.substr(1) + "?type=" + t.toString() + "&passphrase=" + passphrase;
+        let url = base_url + '/messages/' + location.hash.substr(1) + "?type=" + t.toString() + "&passphrase=" + passphrase;
         console.log(url);
         fetch(url, {
             method: "POST",
